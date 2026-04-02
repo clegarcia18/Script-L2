@@ -11,26 +11,26 @@ Link CONNECTIS → Ethernet1/16
 #######################################################
 LÓGICA FUNCIONAL (RESUMO)
 Se TVCABO cair
- Remove VLANs 21,28,75,244 do SWNDIST1C
- Adiciona VLANs 21,28,75,244 no SWDIST1V
+ Remove VLANs 21,28,75,244 do SW1A-DIST
+ Adiciona VLANs 21,28,75,244 no SW1B-DIST
 !
 Se TVCABO subir
- Adiciona VLANs 21,28,75,244 no SWNDIST1C
+ Adiciona VLANs 21,28,75,244 no SW1A-DIST
  Remove VLANs 21,28,75,244 do SWDIS
  !
  !
  Se CONNECTIS cair
-Remove VLANs 20,113,136,203 do SWDIST1V
-Adiciona VLANs 20,113,136,203 no SWNDIST1C
+Remove VLANs 20,113,136,203 do SW1B-DIST
+Adiciona VLANs 20,113,136,203 no SW1A-DIST
 !
 Se CONNECTIS subir
-Adiciona VLANs 20,113,136,203 no SWDIST1V
-Remove VLANs 20,113,136,203 do SWNDIST1C
-####################################Configuração do SWNDIST1C and SWNDIST1V Down and Up Fibra_TvCabo
+Adiciona VLANs 20,113,136,203 no SW1B-DIST
+Remove VLANs 20,113,136,203 do SW1A-DIST
+####################################Configuração do SW1A-DIST and SW1B-DIST Down and Up Fibra_TvCabo
 conf t
-event manager applet TVCABO_DOWN_SWNDIST1C
+event manager applet TVCABO_DOWN_SW1A-DIST
  event syslog pattern "LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet1/1, changed state to down"
- action 1.0 syslog msg "TVCABO DOWN - removendo VLANs 21,28,75,244 no SWNDIST1C"
+ action 1.0 syslog msg "TVCABO DOWN - removendo VLANs 21,28,75,244 no SW1A-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/1"
@@ -39,9 +39,9 @@ event manager applet TVCABO_DOWN_SWNDIST1C
 end
 !
 conf t
-event manager applet TVCABO_DOWN_SWNDIST1V
+event manager applet TVCABO_DOWN_SW1B-DIST
  event syslog pattern "TVCABO DOWN"
- action 1.0 syslog msg "TVCABO DOWN - adicionando VLANs 21,28,75,244 no SWDIST1V"
+ action 1.0 syslog msg "TVCABO DOWN - adicionando VLANs 21,28,75,244 no SW1B-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/16"
@@ -51,9 +51,9 @@ end
 !
 #####################TvCabo Subir 
 conf t
-event manager applet TVCABO_UP_SWDIST1V
+event manager applet TVCABO_UP_SW1B-DIST
  event syslog pattern "TVCABO UP"
- action 1.0 syslog msg "TVCABO UP - removendo VLANs 21,28,75,244 no SWDIST1V"
+ action 1.0 syslog msg "TVCABO UP - removendo VLANs 21,28,75,244 no SW1B-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/16"
@@ -62,9 +62,9 @@ event manager applet TVCABO_UP_SWDIST1V
 end
 !
 conf t
-event manager applet TVCABO_UP_SWNDIST1C
+event manager applet TVCABO_UP_SW1A-DIST
  event syslog pattern "LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet1/1, changed state to up"
- action 1.0 syslog msg "TVCABO UP - restaurando VLANs 21,28,75,244 no SWNDIST1C"
+ action 1.0 syslog msg "TVCABO UP - restaurando VLANs 21,28,75,244 no SW1A-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/1"
@@ -72,11 +72,11 @@ event manager applet TVCABO_UP_SWNDIST1C
  action 6.0 cli command "end"
 end
 !
-####################################Configuração do SWNDIST1V and SWNDIST1C Down and Up Fibra_Connectis
+####################################Configuração do SW1B-DIST and SW1A-DIST Down and Up Fibra_Connectis
 conf t
-event manager applet CONNECTIS_DOWN_SWDIST1V
+event manager applet CONNECTIS_DOWN_SW1B-DIST
  event syslog pattern "LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet1/16, changed state to down"
- action 1.0 syslog msg "CONNECTIS DOWN - removendo VLANs 20,113,136,203 no SWDIST1V"
+ action 1.0 syslog msg "CONNECTIS DOWN - removendo VLANs 20,113,136,203 no SW1B-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/16"
@@ -85,9 +85,9 @@ event manager applet CONNECTIS_DOWN_SWDIST1V
 end
 !
 conf t
-event manager applet CONNECTIS_DOWN_SWNDIST1C
+event manager applet CONNECTIS_DOWN_SW1A-DIST
  event syslog pattern "CONNECTIS DOWN"
- action 1.0 syslog msg "CONNECTIS DOWN - adicionando VLANs 20,113,136,203 no SWNDIST1C"
+ action 1.0 syslog msg "CONNECTIS DOWN - adicionando VLANs 20,113,136,203 no SW1A-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/1"
@@ -97,9 +97,9 @@ end
 !
 #####################Connectis Subir
 conf t
-event manager applet CONNECTIS_UP_SWNDIST1C
+event manager applet CONNECTIS_UP_SW1A-DIST
  event syslog pattern "CONNECTIS UP"
- action 1.0 syslog msg "CONNECTIS UP - removendo VLANs 20,113,136,203 no SWNDIST1C"
+ action 1.0 syslog msg "CONNECTIS UP - removendo VLANs 20,113,136,203 no SW1A-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/1"
@@ -108,9 +108,9 @@ event manager applet CONNECTIS_UP_SWNDIST1C
 end
 !
 conf t
-event manager applet CONNECTIS_UP_SWDIST1V
+event manager applet CONNECTIS_UP_SW1B-DIST
  event syslog pattern "LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet1/16, changed state to up"
- action 1.0 syslog msg "CONNECTIS UP - restaurando VLANs 20,113,136,203 no SWDIST1V"
+ action 1.0 syslog msg "CONNECTIS UP - restaurando VLANs 20,113,136,203 no SW1B-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/16"
@@ -138,9 +138,9 @@ logging trap notifications
 
 
 conf t
-event manager applet TVCABO_UP_SWNDIST1C
+event manager applet TVCABO_UP_SW1A-DIST
  event syslog pattern "LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet1/1, changed state to up"
- action 1.0 syslog msg "TVCABO UP - restaurando VLANs 21,28,75,244 no SWNDIST1C"
+ action 1.0 syslog msg "TVCABO UP - restaurando VLANs 21,28,75,244 no SW1A-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/1"
@@ -148,11 +148,11 @@ event manager applet TVCABO_UP_SWNDIST1C
  action 6.0 cli command "end"
 end
 !
-############################################Configuração do SWNDIST1V
+############################################Configuração do SW1B-DIST
 conf t
-event manager applet CONNECTIS_DOWN_SWNDIST1V
+event manager applet CONNECTIS_DOWN_SW1B-DIST
  event syslog pattern "CONNECTIS DOWN"
- action 1.0 syslog msg "CONNECTIS DOWN - adicionando VLANs 20,113,136,203 no SWNDIST1C"
+ action 1.0 syslog msg "CONNECTIS DOWN - adicionando VLANs 20,113,136,203 no SW1A-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/1"
@@ -161,9 +161,9 @@ event manager applet CONNECTIS_DOWN_SWNDIST1V
 end
 !
 conf t
-event manager applet CONNECTIS_UP_SWNDIST1V
+event manager applet CONNECTIS_UP_SW1B-DIST
  event syslog pattern "CONNECTIS UP"
- action 1.0 syslog msg "CONNECTIS UP - removendo VLANs 20,113,136,203 no SWNDIST1C"
+ action 1.0 syslog msg "CONNECTIS UP - removendo VLANs 20,113,136,203 no SW1A-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/1"
@@ -172,9 +172,9 @@ event manager applet CONNECTIS_UP_SWNDIST1V
 end
 !
 conf t
-event manager applet CONNECTIS_DOWN_SWDIST1V
+event manager applet CONNECTIS_DOWN_SW1B-DIST
  event syslog pattern "LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet1/16, changed state to down"
- action 1.0 syslog msg "CONNECTIS DOWN - removendo VLANs 20,113,136,203 no SWDIST1V"
+ action 1.0 syslog msg "CONNECTIS DOWN - removendo VLANs 20,113,136,203 no SW1B-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/16"
@@ -183,9 +183,9 @@ event manager applet CONNECTIS_DOWN_SWDIST1V
 end
 !
 conf t
-event manager applet CONNECTIS_UP_SWDIST1V
+event manager applet CONNECTIS_UP_SW1B-DIST
  event syslog pattern "LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet1/16, changed state to up"
- action 1.0 syslog msg "CONNECTIS UP - restaurando VLANs 20,113,136,203 no SWDIST1V"
+ action 1.0 syslog msg "CONNECTIS UP - restaurando VLANs 20,113,136,203 no SW1B-DIST"
  action 2.0 cli command "enable"
  action 3.0 cli command "configure terminal"
  action 4.0 cli command "interface Ethernet1/16"
@@ -193,8 +193,8 @@ event manager applet CONNECTIS_UP_SWDIST1V
  action 6.0 cli command "end"
 end
 !
-logging host 10.222.103.27
-logging host 10.223.103.27
+logging host 10.22.103.27
+logging host 10.23.103.27
 logging trap notifications
 
 
