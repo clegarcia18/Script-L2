@@ -120,8 +120,8 @@ end
 !
 ##############################################SYSLOG entre os Switches 
 
-logging host 10.222.103.27
-logging host 10.223.103.27
+logging host 10.22.103.27
+logging host 10.23.103.27
 logging trap notifications
 
 
